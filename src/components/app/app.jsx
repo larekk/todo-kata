@@ -8,24 +8,7 @@ import {useState} from "react";
 const App = () => {
 
     const [data, setData] = useState([
-        {class: 'completed', value: 'Completed task', checked: true, createTime: 'created 17 seconds ago', id: 1},
-        {class: 'editing', value: 'Editing task', checked: false, createTime: 'created 5 minutes ago', id: 2},
-        {class: 'active', value: 'Active task', createTime: 'created 5 minutes ago', checked: false, id: 3}
     ]);
-
-
-
-    function getActiveTasks() {
-        return setData((state) => {
-            return state.map((item) => {
-                if(item.class !== 'active'){
-                    item.class += ' hidden'
-                    return item;
-                }
-                return item;
-            })
-        });
-    }
 
 
     function getRandomIntInclusive(min, max) {
@@ -38,8 +21,10 @@ const App = () => {
         if (e.code === 'Enter') {
             return setData((state) => {
                 const newState = [...state];
-                const newTask = {value: e.target.value, createTime: 'created 5 minutes ago', checked: false, id: getRandomIntInclusive(data.length + 1, 1000000) };
-                newState.push(newTask);
+                if(e.target.value.trim() !== '') {
+                    const newTask = {class: 'active', value: e.target.value, createTime: 'created 5 minutes ago', checked: false, id: getRandomIntInclusive(data.length + 1, 1000000) };
+                    newState.push(newTask);
+                }
                 e.target.value = '';
                 return newState;
             });
@@ -89,6 +74,48 @@ const App = () => {
         })
     }
 
+    function getActiveTasks() {
+        return setData((state) => {
+            return state.map((item) => {
+                item.class = item.class.split(' ')[0];
+                if(item.checked){
+                    item.class += ' hidden';
+                    return item;
+                }
+                return item;
+            })
+        });
+    }
+
+    function getCompleteTasks() {
+        return setData((state) => {
+            return state.map((item) => {
+                item.class = item.class.split(' ')[0];
+                if(!item.checked){
+                    item.class += ' hidden';
+                    return item;
+                }
+                return item;
+            })
+        });
+    }
+
+    function getAllTasks() {
+        return setData((state) => {
+            return state.map((item) => {
+                item.class = item.class.split(' ')[0];
+                return item;
+            })
+        });
+    }
+
+    function clearCompleteItems() {
+        return setData((state) => {
+            const newState = [...state];
+            return newState.filter(item => !item.checked)
+        })
+    }
+
     return (
         <section className="todoapp">
             <AppHeader onCreateItem={createItem} />
@@ -99,7 +126,11 @@ const App = () => {
                      onEnterEdit={enterEdit}
             />
             <Footer tasks={data}
-                    onActiveTask={getActiveTasks}/>
+                    onAllTasks={getAllTasks}
+                    onActiveTasks={getActiveTasks}
+                    onCompleteTasks={getCompleteTasks}
+                    onClearComleteItems={clearCompleteItems}/>
+
         </section>
     )
 }
