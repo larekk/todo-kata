@@ -1,44 +1,21 @@
 import './task.css';
 
-const Task = ({tasks}) => {
+const Task = ({task, onCompleted, onDelete, onEdit}) => {
 
-    const tasksArr = tasks.map((task) => {
-        if (task.class === 'editing') {
-            return (
-                <li className={task.class} key={task.id}>
-                    <div className='view'>
-                        <input className='toggle' type='checkbox'/>
-                        <label>
-                            <span className='description'>{task.text}</span>
-                            <span className='created'>{task.createTime}</span>
-                        </label>
-                        <button className='icon icon-edit'></button>
-                        <button className='icon icon-destroy'></button>
-                    </div>
-                    <input type="text" className="edit" value="Editing task"/>
-                </li>
-            )
-        }
         return (
-            <li className={task.class} key={task.id}>
-                <div className='view'>
-                    <input className='toggle' type='checkbox'/>
-                    <label>
-                        <span className='description'>{task.text}</span>
-                        <span className='created'>{task.createTime}</span>
-                    </label>
-                    <button className='icon icon-edit'></button>
-                    <button className='icon icon-destroy'></button>
-                </div>
-            </li>
+            <div className='view'>
+                <input className='toggle' type='checkbox' checked={task.checked} onChange={onCompleted.bind(null ,task.id)}/>
+                <label>
+                    <span className='description'>{task.value}</span>
+                    <span className='created'>{task.createTime}</span>
+                </label>
+                <button className='icon icon-edit' onClick={e => onEdit(e, task.id)}></button>
+                <button className='icon icon-destroy'
+                        onClick={onDelete.bind(null, task.id)}>
+                </button>
+            </div>
         )
-    })
 
-
-
-    return (
-        [ tasksArr ]
-    );
 };
 
 export default Task;
