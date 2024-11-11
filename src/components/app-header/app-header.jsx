@@ -1,5 +1,6 @@
 import NewTaskForm from "../new-task-form/new-task-form";
 import "./app-header.css";
+import PropTypes from "prop-types";
 
 
 const AppHeader = ({onCreateItem}) => {
@@ -11,4 +12,13 @@ const AppHeader = ({onCreateItem}) => {
         </header>
     )
 }
+
+AppHeader.defaultProps = {
+    onCreateItem: () => {},
+}
+
+AppHeader.propTypes = {
+    onCreateItem: PropTypes.func,
+}
+
 export default AppHeader;

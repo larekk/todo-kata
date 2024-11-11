@@ -1,5 +1,6 @@
 import './task-filter.css'
 import {useState} from 'react'
+import propTypes from "prop-types";
 
 const TaskFilter = ({onActiveTasks, onAllTasks, onCompleteTasks}) => {
 
@@ -45,6 +46,18 @@ const TaskFilter = ({onActiveTasks, onAllTasks, onCompleteTasks}) => {
             </li>
         </ul>
     )
+}
+
+TaskFilter.defaultProps = {
+    onActiveTasks: () => {},
+    onAllTasks: () => {},
+    onCompleteTasks: () => {},
+}
+
+TaskFilter.propTypes = {
+    onActiveTasks: propTypes.func.isRequired,
+    onAllTasks: propTypes.func.isRequired,
+    onCompleteTasks: propTypes.func.isRequired,
 }
 
 export default TaskFilter;

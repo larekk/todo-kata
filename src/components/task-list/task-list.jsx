@@ -1,5 +1,6 @@
 import Task from "../task/task";
 import './task-list.css';
+import PropTypes from "prop-types";
 
 
 const TaskList = ({tasks, onCompleted, onDelete, onEdit, onEnterEdit}) => {
@@ -18,6 +19,22 @@ const TaskList = ({tasks, onCompleted, onDelete, onEdit, onEnterEdit}) => {
                 )}
         </ul>
     )
+}
+
+TaskList.defaultProps = {
+    tasks: [],
+    onCompleted: () => {},
+    onDelete: () => {},
+    onEdit: () => {},
+    onEnterEdit: () => {}
+}
+
+TaskList.propTypes = {
+    tasks: PropTypes.array,
+    onCompleted: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
+    onEnterEdit: PropTypes.func.isRequired,
 }
 
 

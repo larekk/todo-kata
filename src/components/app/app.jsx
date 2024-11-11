@@ -5,6 +5,8 @@ import './app.css';
 import {useState} from "react";
 
 
+
+
 const App = () => {
 
     const [data, setData] = useState([
@@ -14,15 +16,17 @@ const App = () => {
     function getRandomIntInclusive(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min + 1) + min); // Максимум и минимум включаются
+        return Math.floor(Math.random() * (max - min + 1) + min);
     }
+
 
     function createItem (e) {
         if (e.code === 'Enter') {
             return setData((state) => {
                 const newState = [...state];
                 if(e.target.value.trim() !== '') {
-                    const newTask = {class: 'active', value: e.target.value, createTime: 'created 5 minutes ago', checked: false, id: getRandomIntInclusive(data.length + 1, 1000000) };
+                    const newTask = {class: 'active', value: e.target.value, createTime: new Date(),
+                                              checked: false, id: getRandomIntInclusive(data.length + 1, 1000000) };
                     newState.push(newTask);
                 }
                 e.target.value = '';
@@ -129,7 +133,7 @@ const App = () => {
                     onAllTasks={getAllTasks}
                     onActiveTasks={getActiveTasks}
                     onCompleteTasks={getCompleteTasks}
-                    onClearComleteItems={clearCompleteItems}/>
+                    onClearCompleteItems={clearCompleteItems}/>
 
         </section>
     )

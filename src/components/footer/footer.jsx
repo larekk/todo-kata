@@ -1,9 +1,10 @@
 import TaskFilter from "../task-filter/tasks-filter";
 import './footer.css';
+import propTypes from 'prop-types';
 
-const Footer = ({tasks, onActiveTasks, onAllTasks, onCompleteTasks, onClearComleteItems}) => {
+const Footer = ({tasks, onActiveTasks, onAllTasks, onCompleteTasks, onClearCompleteItems}) => {
 
-    const leftItems = tasks.filter(task => task.class === 'active')
+    const leftItems = tasks.filter(task => task.class.split(' ')[0] === 'active')
 
     return (
         <footer className="footer">
@@ -14,9 +15,26 @@ const Footer = ({tasks, onActiveTasks, onAllTasks, onCompleteTasks, onClearComle
                             onCompleteTasks={onCompleteTasks}
                             />
             <button className="clear-completed"
-                    onClick={onClearComleteItems}>Clear completed</button>
+                    onClick={onClearCompleteItems}>Clear completed</button>
         </footer>
     )
 }
+
+Footer.defaultProps = {
+    tasks: [],
+    onActiveTasks: () => {},
+    onAllTasks: () => {},
+    onCompleteTasks: () => {},
+    onClearCompleteItems: () => {}
+}
+
+Footer.propTypes = {
+    tasks: propTypes.array.isRequired,
+    onActiveTasks: propTypes.func.isRequired,
+    onAllTasks: propTypes.func.isRequired,
+    onCompleteTasks: propTypes.func.isRequired,
+    onClearCompleteItems: propTypes.func.isRequired,
+}
+
 
 export default Footer;
