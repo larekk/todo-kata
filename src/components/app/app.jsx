@@ -21,6 +21,12 @@ const App = () => {
       const taskName = e.nativeEvent.target[0]
       const taskTimeMinutes = e.nativeEvent.target[1]
       const taskTimeSeconds = e.nativeEvent.target[2]
+      if (!/^\d+$/.test(taskTimeSeconds.value) || !/^\d+$/.test(taskTimeMinutes.value)) {
+        taskName.value = ''
+        taskTimeMinutes.value = ''
+        taskTimeSeconds.value = ''
+        return newState
+      }
       if (taskTimeMinutes.value.length < 1 && taskTimeSeconds.value.length < 1) {
         taskName.value = ''
         taskTimeMinutes.value = ''
