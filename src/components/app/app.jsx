@@ -15,23 +15,53 @@ const App = () => {
   }
 
   function createItem(e) {
-    if (e.code === 'Enter') {
-      return setData((state) => {
-        const newState = [...state]
-        if (e.target.value.trim() !== '') {
-          const newTask = {
-            class: 'active',
-            value: e.target.value,
-            createTime: new Date(),
-            checked: false,
-            id: getRandomIntInclusive(data.length + 1, 1000000),
-          }
-          newState.push(newTask)
-        }
-        e.target.value = ''
+    e.preventDefault()
+    return setData((state) => {
+      const newState = [...state]
+      const taskName = e.nativeEvent.target[0]
+      const taskTimeMinutes = e.nativeEvent.target[1]
+      const taskTimeSeconds = e.nativeEvent.target[2]
+      if (taskTimeMinutes.value.length < 1 && taskTimeSeconds.value.length < 1) {
+        taskName.value = ''
+        taskTimeMinutes.value = ''
+        taskTimeSeconds.value = ''
         return newState
-      })
-    }
+      }
+
+      if (taskTimeMinutes.value < 0) {
+        taskTimeMinutes.value = ''
+        return newState
+      }
+      if (taskTimeSeconds.value < 0) {
+        taskTimeSeconds.value = ''
+        return newState
+      }
+
+      if (taskTimeMinutes.value.length < 1) {
+        taskTimeMinutes.value = 0
+      }
+      if (taskTimeSeconds.value.length < 1) {
+        taskTimeSeconds.value = '00'
+      }
+
+      if (taskName.value.trim() !== '') {
+        const newTask = {
+          class: 'active',
+          value: taskName.value,
+          valueMinutes: taskTimeMinutes.value.trim(),
+          valueSeconds:
+            taskTimeSeconds.value.length === 1 ? '0' + taskTimeSeconds.value.trim() : taskTimeSeconds.value.trim(),
+          createTime: new Date(),
+          checked: false,
+          id: getRandomIntInclusive(data.length + 1, 1000000),
+        }
+        newState.push(newTask)
+      }
+      taskName.value = ''
+      taskTimeMinutes.value = ''
+      taskTimeSeconds.value = ''
+      return newState
+    })
   }
 
   function completeItem(id) {
